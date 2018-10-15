@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+using System;
 using DarkRift;
 using UnityEngine;
 
@@ -145,8 +144,7 @@ namespace DarkriftSerializationExtensions
                     return new Quaternion(a, b, c, d);
             }
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        
         private static bool GetBit(this byte b, int bitIndex)
         {
             return ((b >> bitIndex) & 1) != 0;
