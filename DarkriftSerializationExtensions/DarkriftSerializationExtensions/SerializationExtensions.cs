@@ -115,9 +115,7 @@ namespace DarkriftSerializationExtensions
                     break;
             }
 
-            //write the first 2 bits of the byte
-            writer.Write(maxIndex.GetBit(0));
-            writer.Write(maxIndex.GetBit(1));
+            writer.Write(maxIndex);
             writer.Write(a);
             writer.Write(b);
             writer.Write(c);
@@ -128,23 +126,7 @@ namespace DarkriftSerializationExtensions
         /// </summary>
         public static Quaternion ReadQuaternionCompressed(this DarkRiftReader reader)
         {
-            bool bit0 = reader.ReadBoolean();
-            bool bit1 = reader.ReadBoolean();
-            byte maxIndex;
-
-            if (bit0)
-            {
-                maxIndex = 1;
-            }
-            else
-            {
-                maxIndex = 0;
-            }
-
-            if (bit1)
-            {
-                maxIndex += 1 <<1;
-            }
+            byte maxIndex = reader.ReadByte();
 
             float a = reader.ReadInt16() / 32767f;
             float b = reader.ReadInt16() / 32767f;
