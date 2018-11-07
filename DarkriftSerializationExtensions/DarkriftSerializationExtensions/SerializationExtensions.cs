@@ -168,5 +168,45 @@ namespace DarkriftSerializationExtensions
             return a / 10430f;
         }
 
+        /// <summary>
+        /// Writes an array of bools as bytes
+        /// </summary>
+        public static void WriteBoolsAsBytes(this DarkRiftWriter writer, bool[] bools)
+        {
+            for (int i = 0; i < bools.Length; i+= 8)
+            {
+                int temp = 0;
+                for (int j = 0; j < 8; j++)
+                {
+                    if(bools[i+j])
+                    {
+                        temp += (bools[i + j] ?  1: 0) << j;
+                    }
+                }
+                writer.Write((byte)temp);
+            }   
+        }
+
+        /// <summary>
+        /// Reads an array of bools written by WriteBoolsAsBytes
+        /// </summary>
+        /// <param name="amount"> The amount of bools to read</param>
+        /// <returns></returns>
+        public static bool[] ReadBytesAsBools(this DarkRiftReader reader, int amount)
+        {
+            bool[] bools = new bool[amount];
+            for (int i = 0; i < amount; i+= 8)
+            {
+                int temp = reader.ReadByte();
+                for (int j = 0; j < 8; j++)
+                {
+                    bools[i + j] = ((temp >> j) & 1) == 1;
+                }
+            }
+
+            return bools;
+        }
+
     }
 }
+
